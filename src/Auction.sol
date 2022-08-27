@@ -1,9 +1,13 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.13;
 
+import "prb-math/PRBMathUD60x18.sol";
+
 import "./IERC20.sol";
 
 contract Auction {
+    using PRBMathUD60x18 for uint256;
+
     address owner;
 
     uint256 blockStart;
@@ -44,5 +48,13 @@ contract Auction {
     function init() external onlyOwner {
         IERC20(tokenBase).transferFrom(msg.sender, address(this), amountBase);
         blockStart = block.number;
+    }
+
+    function getPrice(uint256 amountIn) public view returns(uint256 amountOut) {
+        uint256 boughtAmount = amountBase - IERC20(tokenBase).balanceOf(address(this)) - amountIn;
+        uint256 exponent =
+          (block.number - (boughtAmount / amountBase) * swapPeriod) /
+          halvingPeriod;
+        amountOut = initialPrice / exponent.exp2();
     }
 }
