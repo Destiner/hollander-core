@@ -2,8 +2,7 @@
 pragma solidity 0.8.13;
 
 import "prb-math/PRBMathUD60x18.sol";
-
-import "./IERC20.sol";
+import "openzeppelin-contracts/contracts/token/ERC20/IERC20.sol";
 
 contract Auction {
     using PRBMathUD60x18 for uint256;
