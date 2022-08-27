@@ -8,16 +8,16 @@ import "./IERC20.sol";
 contract Auction {
     using PRBMathUD60x18 for uint256;
 
-    address owner;
+    address public owner;
 
-    uint256 blockStart;
+    uint256 public blockStart;
 
-    address tokenBase;
-    address tokenQuote;
-    uint256 amountBase;
-    uint256 initialPrice;
-    uint256 halvingPeriod;
-    uint256 swapPeriod;
+    address public tokenBase;
+    address public tokenQuote;
+    uint256 public amountBase;
+    uint256 public initialPrice;
+    uint256 public halvingPeriod;
+    uint256 public swapPeriod;
 
     modifier whenActive() {
         require(blockStart > 0);
