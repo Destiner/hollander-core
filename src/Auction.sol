@@ -9,6 +9,7 @@ contract Auction {
     event Swap(address indexed buyer, uint256 amountBuy, uint256 amountSell);
     event Withdraw(uint256 amount);
 
+    error AlreadyStarted();
     error Inactive();
     error Unauthorized();
 
@@ -27,7 +28,7 @@ contract Auction {
 
     modifier whenInactive() {
         if (blockStart > 0) {
-            revert Inactive();
+            revert AlreadyStarted();
         }
         _;
     }
