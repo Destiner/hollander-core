@@ -5,6 +5,9 @@ import "prb-math/PRBMathUD60x18.sol";
 import "openzeppelin-contracts/contracts/token/ERC20/IERC20.sol";
 
 contract Auction {
+    error Inactive();
+    error Unauthorized();
+
     using PRBMathUD60x18 for uint256;
 
     address public owner;
@@ -19,12 +22,16 @@ contract Auction {
     uint256 public swapPeriod;
 
     modifier whenActive() {
-        require(blockStart > 0);
+        if (blockStart > 0) {
+            revert Inactive();
+        }
         _;
     }
 
     modifier onlyOwner() {
-        require(owner == msg.sender);
+        if (owner != msg.sender) {
+            revert Unauthorized();
+        }
         _;
     }
 
