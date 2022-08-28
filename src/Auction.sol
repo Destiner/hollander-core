@@ -83,4 +83,9 @@ contract Auction {
         IERC20(tokenBase).transfer(msg.sender, amountBuy);
         emit Swap(msg.sender, amountBuy, amountSell);
     }
+
+    function withdraw() external onlyOwner returns (uint256 amount) {
+        amount = IERC20(tokenQuote).balanceOf(address(this));
+        IERC20(tokenQuote).transfer(msg.sender, amount);
+    }
 }
