@@ -12,6 +12,9 @@ contract AuctionTest is Test {
     event Swap(address indexed buyer, uint256 amountBuy, uint256 amountSell);
     event Withdraw(uint256 amount);
 
+    error AlreadyStarted();
+    error Unauthorized();
+
     Auction auction;
     IERC20 baseToken;
     IERC20 quoteToken;
@@ -36,6 +39,7 @@ contract AuctionTest is Test {
         );
 
         deal(address(baseToken), alice, AMOUNT);
+        deal(address(baseToken), bob, AMOUNT);
         deal(address(quoteToken), bob, 60000 ether);
         deal(address(quoteToken), carol, 80000 ether);
         deal(address(quoteToken), dave, 20000 ether);
@@ -43,8 +47,19 @@ contract AuctionTest is Test {
         vm.expectEmit(true, true, true, true);
         emit Init(block.number);
 
+        vm.startPrank(bob);
+        baseToken.approve(address(auction), AMOUNT);
+        vm.expectRevert(Unauthorized.selector);
+        auction.init();
+        vm.stopPrank();
+
         vm.startPrank(alice);
         baseToken.approve(address(auction), AMOUNT);
+        auction.init();
+        vm.stopPrank();
+
+        vm.startPrank(alice);
+        vm.expectRevert(AlreadyStarted.selector);
         auction.init();
         vm.stopPrank();
     }
@@ -130,6 +145,11 @@ contract AuctionTest is Test {
         vm.prank(alice);
         uint256 amountB = auction.withdraw();
         assertEq(amountB, sellAmountCarol + sellAmountDave);
+
+        vm.startPrank(bob);
+        vm.expectRevert(Unauthorized.selector);
+        auction.withdraw();
+        vm.stopPrank();
 
         assertEq(baseToken.balanceOf(address(auction)), 0);
         assertEq(quoteToken.balanceOf(address(auction)), 0);
