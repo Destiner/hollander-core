@@ -6,7 +6,7 @@ import "openzeppelin-contracts/contracts/token/ERC20/IERC20.sol";
 
 import "../src/Factory.sol";
 
-contract AuctionTest is Test {
+contract FactoryTest is Test {
     event NewAuction(
         address indexed owner,
         address indexed tokenBase,
