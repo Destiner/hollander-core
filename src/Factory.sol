@@ -12,7 +12,7 @@ contract Factory {
         uint256 initialPrice,
         uint256 halvingPeriod,
         uint256 swapPeriod
-);
+    );
 
     function createAuction(
         address tokenBase,

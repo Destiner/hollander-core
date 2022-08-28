@@ -69,7 +69,10 @@ contract Auction {
 
     function getPrice(uint256 amountIn) public view whenActive returns (uint256 amountOut) {
         uint256 boughtAmount = amountBase - IERC20(tokenBase).balanceOf(address(this)) + amountIn;
-        int256 exponent = ((int256(block.number) - int256(blockStart)) * 1 ether - (int256(boughtAmount) * 1 ether / int256(amountBase)) * int256(swapPeriod)) / int256(halvingPeriod);
+        int256 exponent = (
+            (int256(block.number) - int256(blockStart)) * 1 ether
+                - (int256(boughtAmount) * 1 ether / int256(amountBase)) * int256(swapPeriod)
+        ) / int256(halvingPeriod);
         amountOut = uint256(int256(initialPrice) * 1 ether / exponent.exp2());
     }
 
