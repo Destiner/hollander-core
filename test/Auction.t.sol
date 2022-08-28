@@ -8,6 +8,10 @@ import "../src/Auction.sol";
 import "../src/Factory.sol";
 
 contract AuctionTest is Test {
+    event Init(uint256 blockStart);
+    event Swap(address indexed buyer, uint256 amountBuy, uint256 amountSell);
+    event Withdraw(uint256 amount);
+
     Auction auction;
     IERC20 baseToken;
     IERC20 quoteToken;
@@ -35,6 +39,9 @@ contract AuctionTest is Test {
         deal(address(quoteToken), bob, 60000 ether);
         deal(address(quoteToken), carol, 80000 ether);
         deal(address(quoteToken), dave, 20000 ether);
+
+        vm.expectEmit(true, true, true, true);
+        emit Init(block.number);
 
         vm.startPrank(alice);
         baseToken.approve(address(auction), AMOUNT);
@@ -106,6 +113,9 @@ contract AuctionTest is Test {
 
         uint256 sellAmountBob = 24148974395964370357370;
         buy(bob, 3000, 38 ether, sellAmountBob);
+        vm.expectEmit(true, true, true, true);
+        emit Withdraw(sellAmountBob);
+
         vm.prank(alice);
         uint256 amountA = auction.withdraw();
         assertEq(amountA, sellAmountBob);
@@ -114,6 +124,9 @@ contract AuctionTest is Test {
         buy(carol, 3000, 50 ether, sellAmountCarol);
         uint256 sellAmountDave = 18012480974326451393280;
         buy(dave, 3000, 12 ether, sellAmountDave);
+        vm.expectEmit(true, true, true, true);
+        emit Withdraw(sellAmountCarol + sellAmountDave);
+
         vm.prank(alice);
         uint256 amountB = auction.withdraw();
         assertEq(amountB, sellAmountCarol + sellAmountDave);
@@ -130,6 +143,10 @@ contract AuctionTest is Test {
         uint256 auctionQuoteBalance = quoteToken.balanceOf(address(auction));
         uint256 buyerBaseBalance = baseToken.balanceOf(buyer);
         uint256 buyerQuoteBalance = quoteToken.balanceOf(buyer);
+
+        vm.expectEmit(true, true, true, true);
+        emit Swap(buyer, buyAmount, expectedSellAmount);
+
         vm.prank(buyer);
         uint256 sellAmount = auction.buy(buyAmount);
         assertEq(sellAmount, expectedSellAmount);
