@@ -7,6 +7,16 @@ import "openzeppelin-contracts/contracts/token/ERC20/IERC20.sol";
 import "../src/Factory.sol";
 
 contract AuctionTest is Test {
+    event NewAuction(
+        address indexed owner,
+        address indexed tokenBase,
+        address indexed tokenQuote,
+        uint256 amountBase,
+        uint256 initialPrice,
+        uint256 halvingPeriod,
+        uint256 swapPeriod
+    );
+
     address alice = 0xaAaAaAaaAaAaAaaAaAAAAAAAAaaaAaAaAaaAaaAa;
 
     function testCreation() public {
@@ -18,6 +28,8 @@ contract AuctionTest is Test {
         IERC20 baseToken = new ERC20('Wrapper Ether', 'WETH');
         IERC20 quoteToken = new ERC20('USD Coin', 'USDC');
         Factory factory = new Factory();
+        vm.expectEmit(true, true, true, true);
+        emit NewAuction(alice, address(baseToken), address(quoteToken), AMOUNT, PRICE, HALVING_PERIOD, SWAP_PERIOD);
         vm.prank(alice);
         Auction auction = Auction(
             factory.createAuction(address(baseToken), address(quoteToken), AMOUNT, PRICE, HALVING_PERIOD, SWAP_PERIOD)
