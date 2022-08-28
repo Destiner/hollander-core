@@ -21,6 +21,13 @@ contract Auction {
     uint256 public halvingPeriod;
     uint256 public swapPeriod;
 
+    modifier whenInactive() {
+        if (blockStart > 0) {
+            revert Inactive();
+        }
+        _;
+    }
+
     modifier whenActive() {
         if (blockStart == 0) {
             revert Inactive();
@@ -53,7 +60,7 @@ contract Auction {
         swapPeriod = _swapPeriod;
     }
 
-    function init() external onlyOwner {
+    function init() external onlyOwner whenInactive {
         IERC20(tokenBase).transferFrom(msg.sender, address(this), amountBase);
         blockStart = block.number;
     }
