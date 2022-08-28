@@ -7,6 +7,7 @@ import "prb-math/PRBMathSD59x18.sol";
 contract Auction {
     event Init(uint256 blockStart);
     event Swap(address indexed buyer, uint256 amountBuy, uint256 amountSell);
+    event Withdraw(uint256 amount);
 
     error Inactive();
     error Unauthorized();
@@ -89,5 +90,6 @@ contract Auction {
     function withdraw() external onlyOwner returns (uint256 amount) {
         amount = IERC20(tokenQuote).balanceOf(address(this));
         IERC20(tokenQuote).transfer(msg.sender, amount);
+        emit Withdraw(amount);
     }
 }
