@@ -72,4 +72,12 @@ contract Auction {
         int256 exponent = ((int256(block.number) - int256(blockStart)) * 1 ether - (int256(boughtAmount) * 1 ether / int256(amountBase)) * int256(swapPeriod)) / int256(halvingPeriod);
         amountOut = uint256(int256(initialPrice) * 1 ether / exponent.exp2());
     }
+
+    function buy(uint256 amountBuy) external whenActive returns (uint256 amountSell) {
+        uint256 price = getPrice(amountBuy);
+        amountSell = price * amountBuy / 1 ether;
+        IERC20(tokenQuote).transferFrom(msg.sender, address(this), amountSell);
+        IERC20(tokenBase).transfer(msg.sender, amountBuy);
+        emit Swap(msg.sender, amountBuy, amountSell);
+    }
 }
