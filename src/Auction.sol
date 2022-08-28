@@ -29,6 +29,7 @@ contract Auction {
     }
 
     constructor(
+        address _owner,
         address _tokenBase,
         address _tokenQuote,
         uint256 _amountBase,
@@ -36,6 +37,7 @@ contract Auction {
         uint256 _halvingPeriod,
         uint256 _swapPeriod
     ) {
+        owner = _owner;
         tokenBase = _tokenBase;
         tokenQuote = _tokenQuote;
         amountBase = _amountBase;

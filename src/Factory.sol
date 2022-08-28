@@ -16,6 +16,7 @@ contract Factory {
         returns (address auction)
     {
         require(tokenBase != tokenQuote);
-        auction = address(new Auction(tokenBase, tokenQuote, amountBase, initialPrice, halvingPeriod, swapPeriod));
+        auction =
+            address(new Auction(msg.sender, tokenBase, tokenQuote, amountBase, initialPrice, halvingPeriod, swapPeriod));
     }
 }
