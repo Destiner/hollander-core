@@ -22,7 +22,7 @@ contract Auction {
     uint256 public swapPeriod;
 
     modifier whenActive() {
-        if (blockStart > 0) {
+        if (blockStart == 0) {
             revert Inactive();
         }
         _;
