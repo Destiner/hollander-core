@@ -2,13 +2,13 @@
 pragma solidity 0.8.13;
 
 import "openzeppelin-contracts/contracts/token/ERC20/IERC20.sol";
-import "prb-math/PRBMathUD60x18.sol";
+import "prb-math/PRBMathSD59x18.sol";
 
 contract Auction {
     error Inactive();
     error Unauthorized();
 
-    using PRBMathUD60x18 for uint256;
+    using PRBMathSD59x18 for int256;
 
     address public owner;
 
@@ -59,8 +59,8 @@ contract Auction {
     }
 
     function getPrice(uint256 amountIn) public view returns (uint256 amountOut) {
-        uint256 boughtAmount = amountBase - IERC20(tokenBase).balanceOf(address(this)) - amountIn;
-        uint256 exponent = (block.number - blockStart - (boughtAmount / amountBase) * swapPeriod) / halvingPeriod;
-        amountOut = initialPrice / exponent.exp2();
+        uint256 boughtAmount = amountBase - IERC20(tokenBase).balanceOf(address(this)) + amountIn;
+        int256 exponent = ((int256(block.number) - int256(blockStart)) * 1 ether - (int256(boughtAmount) * 1 ether / int256(amountBase)) * int256(swapPeriod)) / int256(halvingPeriod);
+        amountOut = uint256(int256(initialPrice) * 1 ether / exponent.exp2());
     }
 }
