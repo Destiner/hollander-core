@@ -58,11 +58,9 @@ contract Auction {
         blockStart = block.number;
     }
 
-    function getPrice(uint256 amountIn) public view returns(uint256 amountOut) {
+    function getPrice(uint256 amountIn) public view returns (uint256 amountOut) {
         uint256 boughtAmount = amountBase - IERC20(tokenBase).balanceOf(address(this)) - amountIn;
-        uint256 exponent =
-          (block.number - (boughtAmount / amountBase) * swapPeriod) /
-          halvingPeriod;
+        uint256 exponent = (block.number - blockStart - (boughtAmount / amountBase) * swapPeriod) / halvingPeriod;
         amountOut = initialPrice / exponent.exp2();
     }
 }
