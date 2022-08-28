@@ -5,6 +5,8 @@ import "openzeppelin-contracts/contracts/token/ERC20/IERC20.sol";
 import "prb-math/PRBMathSD59x18.sol";
 
 contract Auction {
+    event Swap(address indexed buyer, uint256 amountBuy, uint256 amountSell);
+
     error Inactive();
     error Unauthorized();
 
