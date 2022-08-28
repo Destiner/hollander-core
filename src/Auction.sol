@@ -5,6 +5,7 @@ import "openzeppelin-contracts/contracts/token/ERC20/IERC20.sol";
 import "prb-math/PRBMathSD59x18.sol";
 
 contract Auction {
+    event Init(uint256 blockStart);
     event Swap(address indexed buyer, uint256 amountBuy, uint256 amountSell);
 
     error Inactive();
@@ -65,6 +66,7 @@ contract Auction {
     function init() external onlyOwner whenInactive {
         IERC20(tokenBase).transferFrom(msg.sender, address(this), amountBase);
         blockStart = block.number;
+        emit Init(blockStart);
     }
 
     function getPrice(uint256 amountIn) public view whenActive returns (uint256 amountOut) {
