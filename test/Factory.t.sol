@@ -8,6 +8,7 @@ import "../src/Factory.sol";
 
 contract FactoryTest is Test {
     event NewAuction(
+        address auction,
         address indexed owner,
         address indexed tokenBase,
         address indexed tokenQuote,
@@ -18,6 +19,7 @@ contract FactoryTest is Test {
     );
 
     address alice = 0xaAaAaAaaAaAaAaaAaAAAAAAAAaaaAaAaAaaAaaAa;
+    address auctionAddress = 0xdd36aa107BcA36Ba4606767D873B13B4770F3b12;
 
     function testCreation() public {
         uint256 AMOUNT = 100 ether;
@@ -29,7 +31,9 @@ contract FactoryTest is Test {
         IERC20 quoteToken = new ERC20('USD Coin', 'USDC');
         Factory factory = new Factory();
         vm.expectEmit(true, true, true, true);
-        emit NewAuction(alice, address(baseToken), address(quoteToken), AMOUNT, PRICE, HALVING_PERIOD, SWAP_PERIOD);
+        emit NewAuction(
+            auctionAddress, alice, address(baseToken), address(quoteToken), AMOUNT, PRICE, HALVING_PERIOD, SWAP_PERIOD
+            );
         vm.prank(alice);
         Auction auction = Auction(
             factory.createAuction(address(baseToken), address(quoteToken), AMOUNT, PRICE, HALVING_PERIOD, SWAP_PERIOD)

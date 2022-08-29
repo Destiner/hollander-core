@@ -5,6 +5,7 @@ import "./Auction.sol";
 
 contract Factory {
     event NewAuction(
+        address auction,
         address indexed owner,
         address indexed tokenBase,
         address indexed tokenQuote,
@@ -28,6 +29,8 @@ contract Factory {
         require(tokenBase != tokenQuote);
         auction =
             address(new Auction(msg.sender, tokenBase, tokenQuote, amountBase, initialPrice, halvingPeriod, swapPeriod));
-        emit NewAuction(msg.sender, tokenBase, tokenQuote, amountBase, initialPrice, halvingPeriod, swapPeriod);
+        emit NewAuction(
+            address(auction), msg.sender, tokenBase, tokenQuote, amountBase, initialPrice, halvingPeriod, swapPeriod
+            );
     }
 }
