@@ -79,3 +79,13 @@ There are many interesting ways for Hollander to improve
 ## Demo
 
 [![Hollander Demo](https://img.youtube.com/vi/6mm0sEYBFyo/0.jpg)](https://www.youtube.com/watch?v=6mm0sEYBFyo)
+
+## Screenshots
+
+<details>
+  ### Home page
+
+  ![Home page](docs/screenshots/1.png)
+</details>
+
+
