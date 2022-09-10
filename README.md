@@ -24,6 +24,8 @@ There are some projects trying to solve similar or related problems:
 
 Hollander solves that via dutch auctions. Any trader can create an custom auction tailored to their needs. The auction will require a single transaction instead of creating multiple smaller trades. It will guarantee near market price execution and lowest price impact possible via economical incentives (no token incentives needed). Order can be fullfilled all at once or partially, and is completely public for all traders. The possibility of sandwich attacks is also eliminated.
 
+*Also see "Visual explanation" section*
+
 ## MEV relevance
 
 Hollander utilizes MEV in two ways:
@@ -97,3 +99,11 @@ There are many interesting ways for Hollander to improve
 ### Complete auction
 
 ![Complete auction](docs/screenshots/4.png)
+
+## Visual explanation
+
+![Step 1](docs/explainer/1.png)
+
+![Step 2](docs/explainer/2.png)
+
+![Step 3](docs/explainer/3.png)
