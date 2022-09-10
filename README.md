@@ -82,22 +82,18 @@ There are many interesting ways for Hollander to improve
 
 ## Screenshots
 
-<details>
-  Home page
+### Home page
 
-  ![Home page](docs/screenshots/1.png)
+![Home page](docs/screenshots/1.png)
 
-  Auction creation
+### Auction creation
 
-  ![Auction creation](docs/screenshots/2.png)
+![Auction creation](docs/screenshots/2.png)
 
-  Active auction
+### Active auction
 
-  ![Active auction](docs/screenshots/3.png)
+![Active auction](docs/screenshots/3.png)
 
-  Complete auction
+### Complete auction
 
-  ![Complete auction](docs/screenshots/4.png)
-</details>
-
-
+![Complete auction](docs/screenshots/4.png)
