@@ -12,9 +12,17 @@ The repository contains smart contract code for Hollander. Hollander is a contra
 
 It is frustrating to make large swap orders via DEXs. First, any large order creates significant price impact due to the lack of liquidity. Also, large orders are more vulnerable to sandwich attacks. Traders usually have to split the order into multiple small ones and set near 0 slippage tolerance (which increases the chances of tx being failed). Aggregators alleviate some of that, but they are inherently centralized and sometimes even pocket the positive slippage.
 
+## Previous work
+
+There are some projects trying to solve similar or related problems:
+
+* Peg Stability Module (PSM): a contract to swap stablecoins at 1:1 rate. The major drawback is lack of free-floating price support
+* Prime Deals: a platform to execute OTC DAO to DAO deals at the predefined price. Unfortunetely, conducting swaps at the predefined price is not efficient (not equivalent to market price) and open for market manipulation.
+* MakerDao Liquidation module: a simple dutch auction implementation for collateral liquidations. The scope is limited to MakerDAO liquidations; also, partial buys are not possible.
+
 ## Solution
 
-Hollander solves that via dutch auctions. Any trader can create an custom auction tailored to their needs. The auction will require a single transaction instead of creating multiple smaller trades. It will guarantee near market price execution and lowest price impact possible via economical incentives (no token incentives needed). The possibility of sandwich attacks is also eliminated.
+Hollander solves that via dutch auctions. Any trader can create an custom auction tailored to their needs. The auction will require a single transaction instead of creating multiple smaller trades. It will guarantee near market price execution and lowest price impact possible via economical incentives (no token incentives needed). Order can be fullfilled all at once or partially, and is completely public for all traders. The possibility of sandwich attacks is also eliminated.
 
 ## MEV relevance
 
